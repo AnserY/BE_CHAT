@@ -11,60 +11,62 @@ package Controller;
  */
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
 public class conversationController {
     
-        String bufferIn [] = new String[10];
-	BufferedWriter bufferOut [] = new   BufferedWriter[10];
-	int indexIn = 0;
-	int indexOut = 0;
-	
-	 public static void main(String[] args) throws IOException {
-	      
-		startServer();
-		startSender();
-		 
-		 
-	 }
+            public String BufferMsg [] = new String[10];
+            int Indexin = 0;
+
 			 
- public static String [] startServer() {
-      String bufferIn [] = new String[10];
-	        (new Thread() {
-	            @Override
+ public void startServer() throws IOException {
+     
+      ServerSocket  ss = new ServerSocket(60010);
+
+     Thread T1 = new Thread() {
+	           
+                    @Override
 	            public void run() {
-	                ServerSocket ss;
-	                try {
-	                    ss = new ServerSocket(60010);
+	                                  
+                        try {
+                            Socket s = ss.accept();
+                            
+                            BufferedReader in = new BufferedReader(
+                                    new InputStreamReader(s.getInputStream()));
+                            String line = null;
+                            while ((line = in.readLine()) != null) {
+                                BufferMsg[Indexin]=line;
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(conversationController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
 
-	                    Socket s = ss.accept();
-
-	                    BufferedReader in = new BufferedReader(
-	                            new InputStreamReader(s.getInputStream()));
-	                    String line = null;
-	                    while ((line = in.readLine()) != null) {
-	                        bufferIn[index]= line ;
-	                    }
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
 	            }
-	        }).start();
+	        };
+     T1.start();
+     
 }
 	
 		 
 	  
-public static void startSender() {
-(new Thread() {
+public void startSender(InetAddress address, int port , String msg) throws IOException {
+
+Socket s = new Socket(address, port);
+        
+Thread T2 = new Thread() {
+
         @Override
-        String msg = 
         public void run() {
             try {
-                Socket s = new Socket("localhost", 60010);
+               
+                
                 BufferedWriter out = new BufferedWriter(
                         new OutputStreamWriter(s.getOutputStream()));
 
@@ -84,7 +86,9 @@ public static void startSender() {
                 e.printStackTrace();
             }
         }
-    }).start();
+    };
+T2.start();
+
 } 
 	      
 	      
