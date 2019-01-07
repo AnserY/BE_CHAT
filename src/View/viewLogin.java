@@ -88,7 +88,7 @@ public class viewLogin extends javax.swing.JFrame {
    
         try {
             loginController CC = new loginController("Yacine");
-            UDPReceiver UDPReceiver = new UDPReceiver(CC);
+            UDPReceiver UDPReceiver = new UDPReceiver(CC,CC.UDPSender.socket);
             this.threadUdp = new Thread(UDPReceiver);
             threadUdp.start();
             CC.sendBrodcast();

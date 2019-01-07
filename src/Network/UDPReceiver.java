@@ -26,13 +26,9 @@ public class UDPReceiver implements Runnable {
 	private Message messageRecu;
 	private Message[] messagewithip;
         
-	public UDPReceiver(loginController CC) {
-		try {
-                        this.CC = CC;
-			this.socket = new DatagramSocket(1234);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
+	public UDPReceiver(loginController CC , DatagramSocket socket) {
+            this.CC = CC;
+            this.socket = socket;
 		this.messagewithip = new Message[10];
 	}
 	
@@ -141,13 +137,14 @@ public class UDPReceiver implements Runnable {
                                              
                                               if(this.socket.getBroadcast()){
                                              
-                                                  
-                                              if(checkLastConnected(this.CC.me.connnectedList)){
+                                                  System.out.println(this.socket.getBroadcast());                                             // if(checkLastConnected(this.CC.me.connnectedList)){
                                                   
                                                     this.CC.sendList(((DataAgent)message).myIp);
-                                              }      
+                                            // }      
                                                     this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
                                                }else{
+                                                  
+                                                   System.out.println("non");   
                                                   
                                                     this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
                                                }

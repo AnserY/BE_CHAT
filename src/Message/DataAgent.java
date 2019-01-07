@@ -24,7 +24,7 @@ public class DataAgent extends Message implements Serializable{
         
     public DataAgent(String pseudo) throws UnknownHostException{
         this.pseudo = pseudo;
-        this.myIp = InetAddress.getByName("10.32.1.50");
+        this.myIp = InetAddress.getByName("10.32.1.175");
         this.timeConnexion = new Date();
         this.connnectedList = new ArrayList<DataAgent>();
         
