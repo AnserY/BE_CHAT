@@ -131,6 +131,10 @@ public class UDPSender {
 		this.sendMess(mes, iptosend);
 	}
 	
+        
+        /*
+            Send Dataagent to all
+        */
         public void sendDataAgentAll(Message message) throws SocketException{
             InetAddress addr=null;
              this.socket.setBroadcast(true);
@@ -142,7 +146,9 @@ public class UDPSender {
 		}
 		this.sendMess(message, addr);
         }
-        
+        /*
+            send connectedList to agent
+        */
         public void sendConnectedList(Message message , InetAddress adr) throws SocketException{
             this.socket.setBroadcast(false);
             this.sendMess(message, adr);

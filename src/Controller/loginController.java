@@ -30,6 +30,9 @@ public class loginController {
             this.me.connnectedList.add(this.me);
         }
         
+        /*
+            
+        */
         public void sendBrodcast() throws SocketException{
             this.UDPSender.sendDataAgentAll(this.me);
         }               
