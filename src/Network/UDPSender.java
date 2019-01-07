@@ -24,7 +24,7 @@ public class UDPSender {
          */
 	public UDPSender(){
 		try {
-			this.socket = new DatagramSocket();
+			this.socket = new DatagramSocket(1234);
 		} catch (SocketException e) {
 			System.err.println("Socket couldn't be created.");
 			e.printStackTrace();
