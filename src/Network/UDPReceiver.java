@@ -148,7 +148,7 @@ public class UDPReceiver implements Runnable {
                                               }      
                                                     this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
                                                }else{
-                                                   System.out.println("3");
+                                                  
                                                     this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
                                                }
                                                 
