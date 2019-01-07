@@ -19,7 +19,7 @@ public class loginController {
     
       
         public DataAgent me;
-        private UDPSender UDPSender;
+        public UDPSender UDPSender;
         
         
         

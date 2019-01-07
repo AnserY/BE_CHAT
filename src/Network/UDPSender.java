@@ -16,7 +16,7 @@ import Message.*;
 
 public class UDPSender {
 	
-	private DatagramSocket socket; // This class represents a socket for sending and receiving datagram packets
+	public DatagramSocket socket; // This class represents a socket for sending and receiving datagram packets
 	private Message lastMessage;
 	
         /*
@@ -137,7 +137,8 @@ public class UDPSender {
         */
         public void sendDataAgentAll(Message message) throws SocketException{
             InetAddress addr=null;
-             this.socket.setBroadcast(true);
+            
+            this.socket.setBroadcast(true);
             
 		try {
 			addr = InetAddress.getByName("255.255.255.255");
@@ -150,7 +151,9 @@ public class UDPSender {
             send connectedList to agent
         */
         public void sendConnectedList(Message message , InetAddress adr) throws SocketException{
+           
             this.socket.setBroadcast(false);
+            
             this.sendMess(message, adr);
         }
         
