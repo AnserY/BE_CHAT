@@ -18,9 +18,40 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Message.*;
+import Network.*;
+
+
 
 
 public class conversationController {
+    
+    public Message msg;
+    public TCPClient tcpclient;
+    public TCPServer tcpserv;
+    public TCPReceiver tcpreceive;
+  
+  
+   
+   //Constructeur
+   public conversationController(){
+    
+       this.tcpserv = new tcpServer();
+       this.tcpreceive= new tcpReceiver();
+       
+   }
+
+    public conversationController() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+   
+   
+   
+       
+   }
+    
+    
+    
     
     
     

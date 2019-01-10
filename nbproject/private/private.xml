@@ -3,27 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/MsgExt.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/MsgTxt.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Controller/loginController.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/View/viewLogin.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Model/Model.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/View/NewJPanel.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/DataAgent.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/View/viewConversationChat.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Network/TCPServer.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Network/UDPReceiver.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/MsgGoodbye.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/Message.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/MsgCheck.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Network/TCPClient.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/MsgHello.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Message/MsgFile.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Controller/conversationController.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Controller/listContactController.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Network/TCPReceiver.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/View/NewJFrame.java</file>
-            <file>file:/home/anser/NetBeansProjects/BE_CHAT/src/Network/UDPSender.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Network/UDPReceiver.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Message/MsgGoodbye.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Message/MsgFile.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Network/UDPSender.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/View/viewConversationChat.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Message/MsgExt.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/View/viewLogin.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Message/DataAgent.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Controller/conversationController.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Controller/loginController.java</file>
+            <file>file:/Users/franck/NetBeansProjects/BE_CHAT/src/Controller/listContactController.java</file>
         </group>
     </open-files>
 </project-private>

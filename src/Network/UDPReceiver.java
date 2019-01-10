@@ -137,17 +137,19 @@ public class UDPReceiver implements Runnable {
                                              
                                               if(this.socket.getBroadcast()){
                                              
-                                                  System.out.println(this.socket.getBroadcast());                                             // if(checkLastConnected(this.CC.me.connnectedList)){
-                                                  
+                                                 System.out.println("oui");           
+                                                 //if(checkLastConnected(this.CC.me.connnectedList)){
+                                                   
                                                     this.CC.sendList(((DataAgent)message).myIp);
-                                            // }      
+                                            //}      
                                                     this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
                                                }else{
-                                                  
+                                                   //this.socket.setBroadcast(false);
                                                    System.out.println("non");   
                                                   
                                                     this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
                                                }
+                                              
                                                 
                                                 
                                              
