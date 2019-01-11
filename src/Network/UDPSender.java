@@ -147,8 +147,9 @@ public class UDPSender {
 			e.printStackTrace();
 		}
 		this.sendMess(message, addr);
-        
-               
+
+           // this.socket.setBroadcast(false);
+
         }
         /*
             send connectedList to agent
@@ -156,11 +157,15 @@ public class UDPSender {
         public void sendConnectedList(Message message , InetAddress adr) throws SocketException{
            
            this.socket.setBroadcast(false);
-           
+
             this.sendMess(message, adr);
           
            
            
+
+            this.sendMess(message, adr);
+          //  this.socket.setBroadcast(true);
+
         }
         
 	/*

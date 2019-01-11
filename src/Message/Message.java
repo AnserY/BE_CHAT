@@ -15,10 +15,22 @@ import Network.*;
  * Father Class of the message
  */
 public class Message {
- 
+
+    /*public InetAddress myIp;
+    public String pseudo;
+    public Date timeConnexion;
+    public String message;
+    
+    public TCPClient Ctcp;
+    
+   // public Message(InetAddress adr, String message){
+        //this.Ctcp= new TCPClient(adr);
+        //this.message=message;
+     */   
+    }
+    
 
     
     
     
-    
-}
+

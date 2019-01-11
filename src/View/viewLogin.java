@@ -81,17 +81,29 @@ public class viewLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
   
        String pseudo = jTextField1.getText();
          
+
+        //Inetaddress adr = "127.0.0.1";
+        
+
         try {
             loginController CC = new loginController(pseudo);
             UDPReceiver UDPReceiver = new UDPReceiver(CC,CC.UDPSender.socket);
             this.threadUdp = new Thread(UDPReceiver);
             threadUdp.start();
             CC.sendBrodcast();
+
        } catch (UnknownHostException ex) {
-            Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
+
+            
+            // Une fois conecté on commence a écouter
+            //conversationController cC = new conversationController();
+            
+            //this.Thread_serv = new Thread(TcpServer);
+            //Thread_serv.start();
         } catch (SocketException ex) {
             Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
