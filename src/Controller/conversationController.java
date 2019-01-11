@@ -26,16 +26,24 @@ import Network.*;
 
 public class conversationController {
     
-    public Message msg;
     public TCPClient tcpclient;
     public TCPServer tcpserv;
-    public TCPReceiver tcpreceive;
+    public DataAgent me ;
+    public DataAgent ToSend;
   
-  
+  public conversationController(DataAgent me){
+       this.tcpserv = new TCPServer();
+       this.me=me;
+  }
 
-
+ public void setConversation(DataAgent agent){
+     this.ToSend=agent;
+ }
    
-   
+public void sendMessage(Message msg){
+    this.tcpclient = new TCPClient(this.ToSend.myIp);
+    this.tcpclient.sendMessage(msg);
+}
    
   
 

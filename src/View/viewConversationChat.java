@@ -5,17 +5,22 @@
  */
 package View;
 
+import Controller.conversationController;
+
 /**
  *
  * @author root
  */
 public class viewConversationChat extends javax.swing.JFrame {
 
+   static conversationController CC ;
+    
     /**
      * Creates new form viewConversationChat
      */
-    public viewConversationChat() {
+    public viewConversationChat(conversationController CC ) {
         initComponents();
+        this.CC = CC;
     }
 
     /**
@@ -38,6 +43,11 @@ public class viewConversationChat extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Send");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -99,6 +109,21 @@ public class viewConversationChat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+     
+
+
+
+
+
+
+
+
+
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -108,6 +133,10 @@ public class viewConversationChat extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        
+        
+        
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -125,11 +154,11 @@ public class viewConversationChat extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(viewConversationChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+    
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new viewConversationChat().setVisible(true);
+                new viewConversationChat(CC).setVisible(true);
             }
         });
     }

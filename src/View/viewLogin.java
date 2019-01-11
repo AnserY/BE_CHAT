@@ -6,6 +6,7 @@
 package View;
 
 import Controller.conversationController;
+import Controller.listContactController;
 import Controller.loginController;
 import Network.UDPReceiver;
 import java.net.InetAddress;
@@ -84,32 +85,36 @@ public class viewLogin extends javax.swing.JFrame {
 
   
        String pseudo = jTextField1.getText();
-         
+       
 
         //Inetaddress adr = "127.0.0.1";
         
 
         try {
-            loginController CC = new loginController(pseudo);
-            UDPReceiver UDPReceiver = new UDPReceiver(CC,CC.UDPSender.socket);
+            
+            loginController LC = new loginController(pseudo);
+            UDPReceiver UDPReceiver = new UDPReceiver(LC,LC.UDPSender.socket);
             this.threadUdp = new Thread(UDPReceiver);
             threadUdp.start();
-            CC.sendBrodcast();
-
+            LC.sendBrodcast();
+            
+            conversationController CC = new conversationController(LC.me);
+            this.dispose();
+            new viewConversationChat(CC).setVisible(true);
+            
        } catch (UnknownHostException ex) {
 
+           
             
-            // Une fois conecté on commence a écouter
-            //conversationController cC = new conversationController();
+           
             
             //this.Thread_serv = new Thread(TcpServer);
             //Thread_serv.start();
         } catch (SocketException ex) {
             Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    this.dispose();
-    new viewConversationChat().setVisible(true);
+                           
+  
     
     
     }//GEN-LAST:event_jButton1ActionPerformed
