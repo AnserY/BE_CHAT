@@ -23,7 +23,7 @@ public class loginController {
         
         
         
-        public loginController(String pseudo) throws UnknownHostException{  
+        public loginController(String pseudo) throws UnknownHostException, SocketException{  
            
             this.UDPSender = new UDPSender();
             this.me = new DataAgent(pseudo);

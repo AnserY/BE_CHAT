@@ -34,10 +34,11 @@ public class conversationController {
   
    
    //Constructeur
+    /*
    public conversationController(){
     
-       this.tcpserv = new tcpServer();
-       this.tcpreceive= new tcpReceiver();
+       this.tcpserv = new TcpServer();
+       this.tcpreceive= new TcpReceiver();
        
    }
 
@@ -46,7 +47,7 @@ public class conversationController {
     }
    
    
-   
+   */
        
    }
     
@@ -55,4 +56,3 @@ public class conversationController {
     
     
     
-}

@@ -87,7 +87,7 @@ public class viewLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Inetaddress adr = "127.0.0.1";
+        //Inetaddress adr = "127.0.0.1";
         
         try {
             loginController CC = new loginController("Franck");
@@ -97,10 +97,10 @@ public class viewLogin extends javax.swing.JFrame {
             CC.sendBrodcast();
             
             // Une fois conecté on commence a écouter
-            conversationController cC = new conversationController();
+            //conversationController cC = new conversationController();
             
-            this.Thread_serv = new Thread(TcpServer);
-            Thread_serv.start();
+            //this.Thread_serv = new Thread(TcpServer);
+            //Thread_serv.start();
         } catch (UnknownHostException ex) {
             Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SocketException ex) {

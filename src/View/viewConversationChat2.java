@@ -99,11 +99,11 @@ public class viewConversationChat2 extends javax.swing.JFrame {
         
         
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String message = jTextField1.getText();  
-        Message msg = new Message (adr,message);
-        TCPClient tcpclient = new TCPClient(adr);
+       // String message = jTextField1.getText();  
+        //Message msg = new Message (adr,message);
+        /TCPClient tcpclient = new TCPClient(adr);
       
-        tcpclient.sendMessage(msg);
+        //tcpclient.sendMessage(msg);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
