@@ -138,15 +138,17 @@ public class UDPSender {
         public void sendDataAgentAll(Message message) throws SocketException{
             InetAddress addr=null;
             
-            this.socket.setBroadcast(true);
-            
+           
+             this.socket.setBroadcast(true);
+             
 		try {
 			addr = InetAddress.getByName("255.255.255.255");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 		this.sendMess(message, addr);
-            this.socket.setBroadcast(false);
+        
+               
         }
         /*
             send connectedList to agent
@@ -155,9 +157,10 @@ public class UDPSender {
            
            this.socket.setBroadcast(false);
            
-            
             this.sendMess(message, adr);
-            this.socket.setBroadcast(true);
+          
+           
+           
         }
         
 	/*

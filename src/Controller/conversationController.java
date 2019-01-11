@@ -33,23 +33,12 @@ public class conversationController {
   
   
    
-   //Constructeur
-   public conversationController(){
-    
-       this.tcpserv = new tcpServer();
-       this.tcpreceive= new tcpReceiver();
-       
-   }
+  
 
-    public conversationController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
    
    
    
-       
-   }
-    
+  
     
     
     
