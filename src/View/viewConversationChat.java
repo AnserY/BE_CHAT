@@ -6,6 +6,7 @@
 package View;
 
 import Controller.conversationController;
+import Message.MsgTxt;
 
 /**
  *
@@ -124,10 +125,17 @@ public class viewConversationChat extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
      
-       System.out.println(this.CC.me.connnectedList);
-        
-        
+       //System.out.println(this.CC.me.connnectedList);
        String message = jTextArea1.getText().toString();
+       this.CC.setConversation(this.CC.me.connnectedList.get(1));
+       MsgTxt msg = new MsgTxt(this.CC.me.pseudo,this.CC.ToSend.pseudo,message);
+       this.CC.sendMessage(msg);
+      
+       
+       
+       
+       
+       
        String mess = message+"\n\n" ;
       
        jTextArea1.setText("");
