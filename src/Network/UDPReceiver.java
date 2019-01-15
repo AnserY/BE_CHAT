@@ -15,6 +15,7 @@ import java.net.SocketException;
 import javax.swing.event.EventListenerList;
 
 import Message.Message;
+import Message.MsgGoodbye;
 import Message.MsgHello;
 import Message.MsgTxt;
 import java.util.ArrayList;
@@ -155,8 +156,11 @@ public class UDPReceiver implements Runnable ,Subject {
                                                    this.CC.me.connectedList.addAll(((MsgHello)message).dataAgent.connectedList);
                                                    this.alert();
                                                    
-                                               }else{
+                                               }else if (message instanceof MsgGoodbye){
+                                                   this.CC.me.connectedList.remove(((MsgGoodbye) message).me);
+                                               }
                                                   
+                                                   else{
                                                    System.out.println("non");   
                                                   
                                                     this.CC.me.connectedList.addAll(((MsgTxt)message).connectedList);

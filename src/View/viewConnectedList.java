@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.listContactController;
+import Message.DataAgent;
 import Network.Observer;
 import Network.TCPServer;
 import Network.UDPReceiver;
@@ -22,6 +24,8 @@ import javax.swing.JFrame;
 public class viewConnectedList extends javax.swing.JFrame implements Observer{
 
     private TCPServer tcpserver;
+    private DataAgent me ;
+    private listContactController list;
     
     /**
      * Creates new form viewConnectedList
@@ -143,7 +147,23 @@ public class viewConnectedList extends javax.swing.JFrame implements Observer{
               }
           });
       }
-      public void setData(TCPServer tcpserver){
+      public void setData(TCPServer tcpserver, DataAgent me){
           this.tcpserver=tcpserver;
+          this.me= me;
       }
+      
+      private void addListener() {
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        list.sendgoodbye(me);
+        
+        
+        
+        
+        }
+        });
+    
+    }
 }
+       

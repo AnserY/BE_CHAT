@@ -5,11 +5,24 @@
  */
 package Controller;
 
+import Message.DataAgent;
+import Network.UDPSender;
+
 /**
  *
  * @author anser
  */
 public class listContactController {
+    public UDPSender udpsender;
+    
+    public listContactController(){
+        this.udpsender = new UDPSender();
+    }
+    public void sendgoodbye( DataAgent me ){
+        udpsender.sendBye(me);
+        
+    }
+    
     
     
 }

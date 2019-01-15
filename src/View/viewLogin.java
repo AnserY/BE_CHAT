@@ -103,7 +103,7 @@ public class viewLogin extends javax.swing.JFrame {
             UDPReceiver UDPReceiver = new UDPReceiver(LC);
             viewConnectedList view = new viewConnectedList();
             
-            view.setData(TCPServer);
+            view.setData(TCPServer,LC.me);
             UDPReceiver.attach(view);
             UDPReceiver.attach(TCPServer);
             

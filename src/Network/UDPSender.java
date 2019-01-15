@@ -138,15 +138,16 @@ public class UDPSender {
 	/*
 	 * Send goodbyeMessage in broadcast
 	 */
-	public void sendBye(String usernameSrc, String usernameDest){
+	public void sendBye(DataAgent me ){
 		InetAddress addr=null;
 		try {
+                        
 			addr = InetAddress.getByName("255.255.255.255");
+                        MsgGoodbye msggoodbye = new MsgGoodbye(me);
+                        this.sendMess(msggoodbye, addr);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		MsgGoodbye mes = new MsgGoodbye(usernameSrc,usernameDest);
-		this.sendMess(mes, addr);
 	}
 	
 	/*

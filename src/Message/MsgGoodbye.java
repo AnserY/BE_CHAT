@@ -5,18 +5,20 @@
  */
 package Message;
 
+import Controller.loginController;
+
 /**
  *
  * @author anser
  */
 public class MsgGoodbye extends Message{
     
-    public String usernameSrc,usernameDest;
+    public DataAgent me ;
             
-   public MsgGoodbye(String usernameSrc,String usernameDest){
+   public MsgGoodbye( DataAgent me){
        
-       this.usernameSrc=usernameSrc;
-       this.usernameDest=usernameDest;
+       this.me=me ;
+       
        
    }
     
