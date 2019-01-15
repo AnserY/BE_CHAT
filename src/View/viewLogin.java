@@ -8,12 +8,16 @@ package View;
 import Controller.conversationController;
 import Controller.listContactController;
 import Controller.loginController;
+import Model.Model;
+import Network.TCPServer;
 import Network.UDPReceiver;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /**
  *
@@ -29,6 +33,7 @@ public class viewLogin extends javax.swing.JFrame {
      */
     public viewLogin() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -83,24 +88,35 @@ public class viewLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-  
+       // Run the TCPServer to listen to messages
+         TCPServer TCPServer = new TCPServer();
+         TCPServer.start();
+           // Connect to the embedded database
+         //  Model model = new Model();
+        
        String pseudo = jTextField1.getText();
        
-
-        //Inetaddress adr = "127.0.0.1";
-        
 
         try {
             
             loginController LC = new loginController(pseudo);
-            UDPReceiver UDPReceiver = new UDPReceiver(LC,LC.UDPSender.socket);
+            UDPReceiver UDPReceiver = new UDPReceiver(LC);
+            viewConnectedList view = new viewConnectedList();
+            
+            view.setData(TCPServer);
+            UDPReceiver.attach(view);
+            UDPReceiver.attach(TCPServer);
+            
             this.threadUdp = new Thread(UDPReceiver);
             threadUdp.start();
             LC.sendBrodcast();
             
-            conversationController CC = new conversationController(LC.me);
+           /*
+            Thread th =new Thread(CC.tcpserv);
+            th.start();
+            */
             this.dispose();
-            new viewConversationChat(CC).setVisible(true);
+            view.setVisible(true);
             
        } catch (UnknownHostException ex) {
 

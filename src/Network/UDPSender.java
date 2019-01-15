@@ -24,7 +24,7 @@ public class UDPSender {
          */
 	public UDPSender(){
 		try {
-			this.socket = new DatagramSocket(1234);
+			this.socket = new DatagramSocket();
 		} catch (SocketException e) {
 			System.err.println("Socket couldn't be created.");
 			e.printStackTrace();
@@ -80,14 +80,14 @@ public class UDPSender {
 	/*
 	 * Send Hello in Broadcast
 	 */
-	public void sendHelloAll(String usernameSrc, String usernameDest){
+	public void sendHelloAll(DataAgent dataAgent){
 		InetAddress addr=null;
 		try {
 			addr = InetAddress.getByName("255.255.255.255");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		MsgHello mes = new MsgHello(usernameSrc,usernameDest,false,true);
+		MsgHello mes = new MsgHello(dataAgent);
 		this.sendMess(mes, addr);
 	}
 	
@@ -107,41 +107,14 @@ public class UDPSender {
 	
         
         
-	public void sendHello(int type,InetAddress iptosend, String usernameSrc, String usernameDest){
-		boolean ack=false;
-		boolean connect=false;
-		switch(type){
-		case 1 : 
-			//Message Hello
-			ack=false;
-			connect=true;
-			break;
-		case 2 : 
-			//Message Hello_Ok
-			ack=true;
-			connect=true;
-			break;
-		case 3 : 
-			//Message Hello_Not_Ok
-			ack=true;
-			connect=false;
-			break;
-	}
-		MsgHello mes = new MsgHello(usernameSrc, usernameDest,ack, connect);
-		this.sendMess(mes, iptosend);
-	}
-	
-        
         /*
             Send Dataagent to all
         */
+        
+        /*
         public void sendDataAgentAll(Message message) throws SocketException{
             InetAddress addr=null;
-            
-           
-             this.socket.setBroadcast(true);
-             
-		try {
+            	try {
 			addr = InetAddress.getByName("255.255.255.255");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -151,21 +124,15 @@ public class UDPSender {
            // this.socket.setBroadcast(false);
 
         }
+        
+        */
         /*
             send connectedList to agent
         */
-        public void sendConnectedList(Message message , InetAddress adr) throws SocketException{
+        public void sendConnectedList(MsgTxt message , InetAddress adr) throws SocketException{
            
-           this.socket.setBroadcast(false);
-
-            this.sendMess(message, adr);
-          
-           
-           
-
-            this.sendMess(message, adr);
+           this.sendMess(message, adr);
           //  this.socket.setBroadcast(true);
-
         }
         
 	/*
@@ -185,24 +152,6 @@ public class UDPSender {
 	/*
 	 * Send message Text
 	 */
-	public void sendMessageNormal(InetAddress iptosend, String message, String usernameSrc, String usernameDest){
-		MsgTxt mes = new MsgTxt(usernameSrc, usernameDest, message);
-		this.sendMess(mes, iptosend);
-	}
-	
-	/*
-	 * Send message Text in broadcast
-	 */
-	public void sendMessageNormalAll(String message, String usernameSrc, String usernameDest){
-		InetAddress addr=null;
-		try {
-			addr = InetAddress.getByName("255.255.255.255");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		MsgTxt mes = new MsgTxt(usernameSrc, usernameDest, message);
-		this.sendMess(mes, addr);
-	}
 	
 	/*
 	 * Send message File
@@ -227,13 +176,6 @@ public class UDPSender {
 	}
 	
         
-	public void sendMessageExterieur(String message,InetAddress iptosend, String usernameSrc, String usernameDest){
-            
-                //getBytes (): encode string to into a sequence of bytes
-		MsgExt mes = new MsgExt(usernameSrc, usernameDest, message.getBytes());
-		this.sendMess(mes, iptosend);
-	}
-	
         
 	public DatagramSocket getSocket(){
 		return this.socket;

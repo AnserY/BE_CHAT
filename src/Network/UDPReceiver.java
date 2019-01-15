@@ -15,21 +15,27 @@ import java.net.SocketException;
 import javax.swing.event.EventListenerList;
 
 import Message.Message;
+import Message.MsgHello;
+import Message.MsgTxt;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class UDPReceiver implements Runnable {
+public class UDPReceiver implements Runnable ,Subject {
         
-        private loginController CC;
+        private ArrayList<Observer> observers;
+        public loginController CC;
 	private DatagramSocket socket; // This class represents a socket for sending and receiving datagram packets
 	private boolean receptionMessage = false;
 	private Message messageRecu;
 	private Message[] messagewithip;
         
-	public UDPReceiver(loginController CC , DatagramSocket socket) {
+	public UDPReceiver(loginController CC ) throws SocketException {
             this.CC = CC;
-            this.socket = socket;
-		this.messagewithip = new Message[10];
+            this.socket = new DatagramSocket(1234);
+            this.observers = new  ArrayList<Observer>();
+	    this.messagewithip = new Message[10];
 	}
 	
 	public UDPReceiver(DatagramSocket sock) {
@@ -86,18 +92,21 @@ public class UDPReceiver implements Runnable {
     }
      
         
-     private boolean checkLastConnected(ArrayList<DataAgent> connectedList){
-            boolean bool = false;
-            int i = 0;
-            while(!bool && i<connectedList.size()){
-                if(connectedList.get(i).timeConnexion.after(this.CC.me.timeConnexion))
-                     bool = true;
-                else 
-                    i++;
+       private boolean checkLastConnected(ArrayList<DataAgent> connectedList){
+      
+           Collections.sort(connectedList,new Comparator<DataAgent>() {
+            @Override
+            public int compare(DataAgent o1, DataAgent o2) {
+                 return o1.timeConnexion.after(o2.timeConnexion) ? 1 : -1;
             }
-            return bool;
-            
+        });
+           //System.out.print(connectedList);
+            if(connectedList.get(0).pseudo.equals(this.CC.me.pseudo))
+            return true;
+            else
+            return false;
         }
+
 
 	@Override
 	public void run() {
@@ -122,32 +131,36 @@ public class UDPReceiver implements Runnable {
 				catch (IOException e1) {
 					return;
 				}
-				System.out.println("J'ai reçu un message de "+ messageReceived.getAddress());
+				System.out.println("J'ai reçu un message de "+ messageReceived.getSocketAddress());
 				try{
 					//Deserialize the object and create a Message object from the bytes read
 					ByteArrayInputStream bais = new ByteArrayInputStream(messageReceived.getData());
 					ObjectInputStream ois =  new ObjectInputStream(bais) ;
 					address = messageReceived.getAddress();
-					try {
+					
+                                        try {
 						message = (Message) ois.readObject();
                                                 
                                          if(!messageReceived.getAddress().equals(this.CC.me.myIp)){  
                                            
                                                                                            
                                              
-                                              if(this.socket.getBroadcast()){
+                                              if(message instanceof MsgHello){
                                              
                                                  System.out.println("oui");           
-                                                 //if(checkLastConnected(this.CC.me.connnectedList)){
+                                                 if(checkLastConnected(this.CC.me.connectedList)){
                                                    
-                                                    this.CC.sendList(((DataAgent)message).myIp);
-                                            //}      
-                                                    this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
+                                                    this.CC.sendList(((MsgHello)message).dataAgent.myIp);
+                                                }      
+                                                   this.CC.me.connectedList.addAll(((MsgHello)message).dataAgent.connectedList);
+                                                   this.alert();
+                                                   
                                                }else{
-                                                   //this.socket.setBroadcast(false);
+                                                  
                                                    System.out.println("non");   
                                                   
-                                                    this.CC.me.connnectedList.addAll(((DataAgent)message).connnectedList);
+                                                    this.CC.me.connectedList.addAll(((MsgTxt)message).connectedList);
+                                                    this.alert();
                                                }
                                               
                                                 
@@ -165,7 +178,7 @@ public class UDPReceiver implements Runnable {
 				index = (index+1)%10;
 				this.setReceptionMessage(true);
 				//this.newMessageReceived(address);
-				System.out.println(this.CC.me.connnectedList);
+				System.out.println(this.CC.me.connectedList);
 			}
 		}
 		finally {
@@ -174,4 +187,21 @@ public class UDPReceiver implements Runnable {
 		}
 
 	}
+
+    @Override
+    public void attach(Observer o) {
+            this.observers.add(o);
+    }
+
+    @Override
+    public void deattach(Observer o) {
+            this.observers.remove(o);
+    }
+
+    @Override
+    public void alert() {
+            for (int i = 0; i < observers.size(); i++) {
+                observers.get(i).update(this);
+        }
+    }
 }

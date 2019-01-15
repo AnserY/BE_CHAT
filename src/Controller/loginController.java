@@ -6,6 +6,7 @@
 package Controller;
 
 import Message.DataAgent;
+import Message.MsgTxt;
 import Network.UDPSender;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -27,18 +28,18 @@ public class loginController {
            
             this.UDPSender = new UDPSender();
             this.me = new DataAgent(pseudo);
-            this.me.connnectedList.add(this.me);
+            this.me.connectedList.add(this.me);
         }
         
         /*
             
         */
         public void sendBrodcast() throws SocketException{
-            this.UDPSender.sendDataAgentAll(this.me);
+            this.UDPSender.sendHelloAll(this.me);
         }               
         
         public void sendList(InetAddress adr) throws SocketException{
-            this.UDPSender.sendConnectedList(this.me, adr);
+            this.UDPSender.sendConnectedList(new MsgTxt (this.me.connectedList), adr);
         }
     
 }

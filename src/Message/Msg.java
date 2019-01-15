@@ -5,23 +5,25 @@
  */
 package Message;
 
-import java.net.InetAddress;
-import java.util.Date;
-import Network.*;
 import java.io.Serializable;
+import java.net.InetAddress;
 
 /**
  *
  * @author anser
- * Father Class of the message
  */
-public class Message implements Serializable{
-
-}
+public class Msg extends Message implements Serializable {
+ 
+    public String Text;
     
-
-    
+    public Msg(String Text) {
+        this.Text = Text;
+    }
+    @Override
+    public String toString(){
+        return Text;
+    }
     
    
-
-
+    
+}

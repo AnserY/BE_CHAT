@@ -24,7 +24,7 @@ public class DataAgent extends Message implements Serializable{
     public InetAddress myIp;
     public String pseudo;
     public Date timeConnexion;
-    public ArrayList<DataAgent> connnectedList = null ;
+    public ArrayList<DataAgent> connectedList = null ;
     
     // expression réguliere pour le format de l'adresse
     private static final Pattern PATTERN = Pattern.compile(
@@ -33,15 +33,15 @@ public class DataAgent extends Message implements Serializable{
     
         
     public DataAgent(String pseudo) throws UnknownHostException, SocketException{
-        this.pseudo = pseudo;
 
-        this.myIp = InetAddress.getByName("10.32.1.104");
+        this.pseudo = pseudo;
         this.myIp = InetAddress.getByName(this.getaddressip());
         this.timeConnexion = new Date();
-        this.connnectedList = new ArrayList<DataAgent>();
+        this.connectedList = new ArrayList<DataAgent>();
+
     }
   
-    public String getaddressip() throws SocketException{
+   public String getaddressip() throws SocketException{
         // Parcours de toutes les adresses 
         Enumeration e = NetworkInterface.getNetworkInterfaces();
         while(e.hasMoreElements())

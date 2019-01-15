@@ -5,28 +5,30 @@
  */
 package Message;
 
+import java.io.Serializable;
+
 /**
  *
  * @author anser
  */
-public class MsgHello extends Message{
+public class MsgHello extends Message implements Serializable {
     
-    public String usernameSrc,usernameDest;           ;
-    public boolean ack , connect ;//Switch(type) 
+    public DataAgent dataAgent;           ;
     
     
-    public MsgHello(String usernameSrc,String usernameDest,boolean ack , boolean connect){
-        this.usernameSrc=usernameSrc;
-        this.usernameDest=usernameDest;
-        this.ack=ack;
-        this.connect=connect;
+    
+    public MsgHello(DataAgent dataAgent){
+       this.dataAgent=dataAgent;  
+    
     }
     
       
   //@Override
-    /*public String toString(){
-        return this.message;
-    }*/
     
+    @Override
+    public String toString(){
+        return this.dataAgent.pseudo+", connected at: "+this.dataAgent.timeConnexion+", ip : "+this.dataAgent.myIp;
+    }
+
     
 }

@@ -1,6 +1,7 @@
 package Network;
 
 import Message.Message;
+import Message.MsgTxt;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -14,15 +15,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class TCPReceiver implements Runnable{
+public class TCPReceiver implements Runnable, Subject{
 	
 	private Socket sock;
-       
+        public Object object;
+        private Observer observers;
+   
 	
 	public TCPReceiver(Socket sock){
 		this.sock = sock;	
 	}
 
+        
+      /*  public Object getObject(){
+            return this.object;
+        }
+        */
+        
+        
 	@Override
 	public void run() {
             
@@ -32,9 +42,9 @@ public class TCPReceiver implements Runnable{
                 
                 if(sock.getInputStream().available()!=0){
                 objectInput = new ObjectInputStream(sock.getInputStream());
-                Object object =(Message) objectInput.readObject();
-                
-                System.out.println(object);
+                object =(Message) objectInput.readObject();
+                alert();
+               
                 }
 		
             } catch (IOException ex) {
@@ -46,5 +56,20 @@ public class TCPReceiver implements Runnable{
 	}
 	
         }
+
+    @Override
+    public void attach(Observer o) {
+            this.observers=o;
+    }
+
+    @Override
+    public void deattach(Observer o) {
+            this.observers=null;
+    }
+
+    @Override
+    public void alert() {
+            this.observers.update(this);
+    }
 
 }

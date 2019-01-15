@@ -38,9 +38,10 @@ public class conversationController {
 
  public void setConversation(DataAgent agent){
      this.ToSend=agent;
+     
  }
    
-public void sendMessage(Message msg){
+public void sendMessage(Message msg) throws IOException{
     this.tcpclient = new TCPClient(this.ToSend.myIp);
     this.tcpclient.sendMessage(msg);
 }

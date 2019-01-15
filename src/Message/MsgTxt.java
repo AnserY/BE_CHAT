@@ -6,6 +6,7 @@
 package Message;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,19 +14,17 @@ import java.io.Serializable;
  */
 public class MsgTxt extends Message implements Serializable{
     
-    public String usernameSrc,usernameDest,message;
-  
+   public ArrayList<DataAgent> connectedList ;
+   
   //Contructor
-  public MsgTxt(String usernameSrc,String usernameDest,String message){
+  public MsgTxt(ArrayList<DataAgent> connectedList){
       
-      this.message=message;
-      this.usernameSrc=usernameSrc;
-      this.usernameDest=usernameDest;
+     this.connectedList=connectedList;
       
   }
-  
+    
   @Override
     public String toString(){
-        return this.message;
+        return this.connectedList.toString();
     }
 }
