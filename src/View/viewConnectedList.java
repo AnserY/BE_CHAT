@@ -25,12 +25,13 @@ public class viewConnectedList extends javax.swing.JFrame implements Observer{
 
     private TCPServer tcpserver;
     private DataAgent me ;
-    private listContactController list;
+    private listContactController list = new listContactController();
     
     /**
      * Creates new form viewConnectedList
      */
     public viewConnectedList() {
+        //addListener();
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
@@ -154,12 +155,10 @@ public class viewConnectedList extends javax.swing.JFrame implements Observer{
       
       private void addListener() {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
-    @Override
-    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+  
+            @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
         list.sendgoodbye(me);
-        
-        
-        
         
         }
         });

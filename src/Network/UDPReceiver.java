@@ -156,9 +156,11 @@ public class UDPReceiver implements Runnable ,Subject {
                                                    this.CC.me.connectedList.addAll(((MsgHello)message).dataAgent.connectedList);
                                                    this.alert();
                                                    
-                                               }else if (message instanceof MsgGoodbye){
+                                               }/*else if (message instanceof MsgGoodbye){
                                                    this.CC.me.connectedList.remove(((MsgGoodbye) message).me);
-                                               }
+                                                   System.out.println(((MsgGoodbye) message).me);
+                                                   System.out.println(this.CC.me.connectedList);
+                                               }*/
                                                   
                                                    else{
                                                    System.out.println("non");   

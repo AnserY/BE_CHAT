@@ -115,7 +115,7 @@ public class viewLogin extends javax.swing.JFrame {
             Thread th =new Thread(CC.tcpserv);
             th.start();
             */
-            this.dispose();
+           // this.dispose();
             view.setVisible(true);
             
        } catch (UnknownHostException ex) {
