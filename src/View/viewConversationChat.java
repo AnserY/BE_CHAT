@@ -10,12 +10,16 @@ import Message.DataAgent;
 import Message.Message;
 import Message.Msg;
 import Message.MsgTxt;
+import Model.Model;
 import Network.Observer;
 import Network.*;
 import Network.TCPReceiver;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -33,14 +37,17 @@ public class viewConversationChat extends javax.swing.JFrame implements Observer
     public DataAgent dataAgent;
     public TCPClient tcpClient ;
     public TCPServer tcpserver;
+    public Model mo;
+    public String historique;
+    public String pseudo;
     
-   
     public conversationController broad_deco ;
     
     
     public viewConversationChat( ) {
         addListener();
         initComponents();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -141,20 +148,47 @@ public class viewConversationChat extends javax.swing.JFrame implements Observer
       
        String message = jTextArea1.getText().toString();
        String mess = message+"\n" ;
-      
+       
+       //Le code ICI
+       
+       
+       
        jTextArea1.setText("");
-       jTextArea2.append("me :"+mess);
-       tcpClient.sendMessage(new Msg(mess));
+       jTextArea2.append("\n "+this.pseudo+" : "+mess);
+       // System.out.println(this.dataAgent.pseudo);  
+       tcpClient.sendMessage(new Msg(mess,pseudo));
+       
+        try {
+            mo.saveMessage(dataAgent.myIp.toString(), message,pseudo);
+        } catch (SQLException ex) {
+            Logger.getLogger(viewConversationChat.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(viewConversationChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
           
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
     
-    public void setData(DataAgent dataAgent,TCPServer tcpserver) throws IOException{
+    public void setData(DataAgent dataAgent,TCPServer tcpserver,Model mo,String historique,String pseudo) throws IOException{
+        this.pseudo=pseudo;
         this.tcpserver=tcpserver;
         this.dataAgent = dataAgent ;
         this.tcpClient = new TCPClient(this.dataAgent.myIp);
+        this.historique = historique;
+        this.mo=mo;
+       
+        affichHist(this.historique);
+        
+       
+        
     }
+    
+    private void affichHist(String historique){
+        this.jTextArea2.append(historique);
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -206,7 +240,7 @@ public class viewConversationChat extends javax.swing.JFrame implements Observer
 
     @Override
     public void update(Object o) {
-            jTextArea2.append(dataAgent.pseudo+"  :  "+((Message)((TCPReceiver)o).object).toString()+"\n");
+            jTextArea2.append(dataAgent.pseudo+" : "+((Message)((TCPReceiver)o).object).toString()+"\n");
     }
 
     private void addListener() {

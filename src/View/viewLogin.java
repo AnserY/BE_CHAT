@@ -5,12 +5,14 @@
  */
 package View;
 
+import Controller.PresenteServerControler;
 import Controller.conversationController;
 import Controller.listContactController;
 import Controller.loginController;
 import Model.Model;
 import Network.TCPServer;
 import Network.UDPReceiver;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -25,15 +27,16 @@ import javax.swing.JFrame;
  */
 public class viewLogin extends javax.swing.JFrame {
 
-    
-       private Thread threadUdp;
-       //private  view1 = new viewConversationChat();
+    private Model mo;
+    private Thread threadUdp;
+    //private  view1 = new viewConversationChat();
+
     /**
      * Creates new form viewLogin
      */
     public viewLogin() {
         initComponents();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -45,8 +48,11 @@ public class viewLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +65,22 @@ public class viewLogin extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("Local Network");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Presence server");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,21 +88,30 @@ public class viewLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addComponent(jRadioButton1)
+                        .addGap(52, 52, 52)
+                        .addComponent(jRadioButton2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                        .addGap(114, 114, 114)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(124, Short.MAX_VALUE)
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2))
+                .addGap(34, 34, 34)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(36, 36, 36)
                 .addComponent(jButton1)
-                .addGap(64, 64, 64))
+                .addGap(72, 72, 72))
         );
 
         pack();
@@ -88,52 +119,70 @@ public class viewLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-       // Run the TCPServer to listen to messages
-         TCPServer TCPServer = new TCPServer();
-         TCPServer.start();
-           // Connect to the embedded database
-         //  Model model = new Model();
-        
-       String pseudo = jTextField1.getText();
-       
-
         try {
-            
-            loginController LC = new loginController(pseudo);
+            loginController LC = new loginController(jTextField1.getText());
+
+            this.mo = new Model();
+
+            TCPServer TCPServer = new TCPServer(this.mo, jTextField1.getText());
+            TCPServer.start();
+
             UDPReceiver UDPReceiver = new UDPReceiver(LC);
             viewConnectedList view = new viewConnectedList();
-            
-            view.setData(TCPServer,LC.me);
+
             UDPReceiver.attach(view);
             UDPReceiver.attach(TCPServer);
-            
+
             this.threadUdp = new Thread(UDPReceiver);
             threadUdp.start();
-            LC.sendBrodcast();
-            
-           /*
-            Thread th =new Thread(CC.tcpserv);
-            th.start();
-            */
-           // this.dispose();
-            view.setVisible(true);
-            
-       } catch (UnknownHostException ex) {
 
-           
-            
-           
-            
-            //this.Thread_serv = new Thread(TcpServer);
-            //Thread_serv.start();
+            if (jRadioButton1.isSelected()) {
+
+                view.setData(TCPServer, this.mo,true);
+
+                LC.sendBrodcast();
+
+                this.dispose();
+
+                view.setVisible(true);
+            } else if (jRadioButton2.isSelected()) {
+                view.setData(TCPServer, this.mo, false);
+                
+                view.setAgent(LC.me.pseudo, LC.me.myIp);
+                
+                PresenteServerControler PS = new PresenteServerControler();
+             
+                    PS.subscribe(jTextField1.getText(), LC.me.myIp.toString().replaceAll("/", ""));
+                    //Afficher la vue connected view après la connection et fermeture de la vue de connexion
+                    this.dispose();
+                    view.setVisible(true);
+               
+            } else {
+                System.err.println("Aucune Selection");
+            }
+
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SocketException ex) {
             Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-                           
-  
-    
-    
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,7 +220,10 @@ public class viewLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

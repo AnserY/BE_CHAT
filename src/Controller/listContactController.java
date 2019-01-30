@@ -18,8 +18,9 @@ public class listContactController {
     public listContactController(){
         this.udpsender = new UDPSender();
     }
-    public void sendgoodbye( DataAgent me ){
-        udpsender.sendBye(me);
+    
+    public void sendgoodbye(){
+        udpsender.sendBye();
         
     }
     

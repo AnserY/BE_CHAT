@@ -15,9 +15,11 @@ import java.net.InetAddress;
 public class Msg extends Message implements Serializable {
  
     public String Text;
+    public String source;
     
-    public Msg(String Text) {
+    public Msg(String Text,String source) {
         this.Text = Text;
+        this.source=source;
     }
     @Override
     public String toString(){

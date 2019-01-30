@@ -6,21 +6,14 @@
 package Message;
 
 import Controller.loginController;
+import java.io.Serializable;
 
 /**
  *
  * @author anser
  */
-public class MsgGoodbye extends Message{
+public class MsgGoodbye extends Message implements Serializable{
     
-    public DataAgent me ;
-            
-   public MsgGoodbye( DataAgent me){
-       
-       this.me=me ;
-       
-       
-   }
-  
+ 
     
 }

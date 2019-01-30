@@ -5,13 +5,18 @@
  */
 package View;
 
+import Controller.PresenteServerControler;
 import Controller.listContactController;
 import Message.DataAgent;
+import Model.Model;
 import Network.Observer;
 import Network.TCPServer;
 import Network.UDPReceiver;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -21,19 +26,23 @@ import javax.swing.JFrame;
  *
  * @author root
  */
-public class viewConnectedList extends javax.swing.JFrame implements Observer{
+public class viewConnectedList extends javax.swing.JFrame implements Observer {
 
+    private Model mo;
     private TCPServer tcpserver;
-    private DataAgent me ;
-    private listContactController list = new listContactController();
-    
+    private PresenteServerControler ps = new PresenteServerControler();
+    private boolean mode;
+    private String pseudo;
+    private InetAddress ip;
+    private listContactController LC = new listContactController();
+
     /**
      * Creates new form viewConnectedList
      */
     public viewConnectedList() {
-        //addListener();
+        addListener();
         initComponents();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -48,17 +57,6 @@ public class viewConnectedList extends javax.swing.JFrame implements Observer{
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 653, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 362, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,55 +112,74 @@ public class viewConnectedList extends javax.swing.JFrame implements Observer{
     // End of variables declaration//GEN-END:variables
 
     @Override
-      public void update(Object o) {
-        
-        if (o instanceof UDPReceiver){
+    public void update(Object o) {
+        System.err.println("oui");
+             this.jPanel1.removeAll();
+        if (o instanceof UDPReceiver) {
             setLayout(new java.awt.GridLayout(0, 1));
-            for (int i = 0; i < ((UDPReceiver)o).CC.me.connectedList.size(); ++i){
-                if(!((UDPReceiver)o).CC.me.connectedList.get(i).pseudo.equals(((UDPReceiver)o).CC.me.pseudo)){
-                JButton b = new JButton(((UDPReceiver)o).CC.me.connectedList.get(i).pseudo);
-             
-                doIt(b,i,o);     
-                
-           
-            add(b);
-            pack();
+            for (int i = 0; i < ((UDPReceiver) o).CC.me.connectedList.size(); ++i) {
+                if (!((UDPReceiver) o).CC.me.connectedList.get(i).pseudo.equals(((UDPReceiver) o).CC.me.pseudo)) {
+                    JButton b = new JButton(((UDPReceiver) o).CC.me.connectedList.get(i).pseudo);
+
+                    doIt(b, i, o);
+
+                    add(b);
+                    pack();
+                }
             }
-            }
-  
+
         }
     }
-      
-      private void doIt(JButton b , int i , Object o){
-          b.addActionListener(new java.awt.event.ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent ae) {
-                 viewConversationChat view = new viewConversationChat();
-                  try {
-                      tcpserver.setView(view);
-                      view.setData(((UDPReceiver)o).CC.me.connectedList.get(i),tcpserver);
-                  } catch (IOException ex) {
-                      Logger.getLogger(viewConnectedList.class.getName()).log(Level.SEVERE, null, ex);
-                  }
-                 view.setVisible(true);
-              }
-          });
-      }
-      public void setData(TCPServer tcpserver, DataAgent me){
-          this.tcpserver=tcpserver;
-          this.me= me;
-      }
-      
-      private void addListener() {
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
-  
+
+    private void doIt(JButton b, int i, Object o) {
+        b.addActionListener(new java.awt.event.ActionListener() {
             @Override
-        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-        list.sendgoodbye(me);
-        
+            public void actionPerformed(ActionEvent ae) {
+
+                viewConversationChat view = new viewConversationChat();
+
+                try {
+                    String ipDest = ((UDPReceiver) o).CC.me.connectedList.get(i).myIp.toString();
+                    tcpserver.setView(view);
+                    view.setData(((UDPReceiver) o).CC.me.connectedList.get(i), tcpserver, mo, mo.getStringConv(ipDest), ((UDPReceiver) o).CC.me.pseudo);
+                } catch (IOException ex) {
+                    Logger.getLogger(viewConnectedList.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(viewConnectedList.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                view.setVisible(true);
+            }
+        });
+    }
+
+    
+    
+     public void setData(TCPServer TCPServer, Model model, boolean mode) {
+        this.tcpserver = TCPServer;
+        this.mo = model;
+        this.mode = mode;
+    }
+     
+    public void setAgent(String pseudo, InetAddress myIp) {
+        this.pseudo = pseudo;
+        this.ip = myIp;
+    }
+    
+    private void addListener() {
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+           if (mode) {
+                        LC.sendgoodbye();
+                    } else {
+               try {
+                   ps.deco(pseudo, ip.toString().replaceAll("/", ""));
+               } catch (IOException ex) {
+                   Logger.getLogger(viewConnectedList.class.getName()).log(Level.SEVERE, null, ex);
+               }
+               }
         }
         });
-    
     }
 }
-       

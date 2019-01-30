@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Message.*;
+import Model.Model;
 import Network.*;
 
 
@@ -26,14 +27,14 @@ import Network.*;
 
 public class conversationController {
     
+    
     public TCPClient tcpclient;
     public TCPServer tcpserv;
     public DataAgent me ;
     public DataAgent ToSend;
   
   public conversationController(DataAgent me){
-       this.tcpserv = new TCPServer();
-       this.me=me;
+      
   }
 
  public void setConversation(DataAgent agent){

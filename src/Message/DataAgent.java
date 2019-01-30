@@ -19,20 +19,18 @@ import java.util.regex.Pattern;
  *
  * @author anser
  */
-public class DataAgent extends Message implements Serializable{
-    
+public class DataAgent extends Message implements Serializable {
+
     public InetAddress myIp;
     public String pseudo;
     public Date timeConnexion;
-    public ArrayList<DataAgent> connectedList = null ;
-    
+    public ArrayList<DataAgent> connectedList = null;
+
     // expression réguliere pour le format de l'adresse
     private static final Pattern PATTERN = Pattern.compile(
-        "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+            "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
-    
-        
-    public DataAgent(String pseudo) throws UnknownHostException, SocketException{
+    public DataAgent(String pseudo) throws UnknownHostException, SocketException {
 
         this.pseudo = pseudo;
         this.myIp = InetAddress.getByName(this.getaddressip());
@@ -41,33 +39,38 @@ public class DataAgent extends Message implements Serializable{
 
     }
   
-   public String getaddressip() throws SocketException{
+    
+    public DataAgent(String pseudo,String ipAdresse) throws UnknownHostException {
+    	this.pseudo=pseudo;
+    	this.myIp=InetAddress.getByName(ipAdresse);
+    }
+  
+    public String getaddressip() throws SocketException {
         // Parcours de toutes les adresses 
         Enumeration e = NetworkInterface.getNetworkInterfaces();
-        while(e.hasMoreElements())
-        {
-        NetworkInterface n = (NetworkInterface) e.nextElement();
-        Enumeration ee = n.getInetAddresses();
-        while (ee.hasMoreElements())
-        {
-            InetAddress i = (InetAddress) ee.nextElement();
-            if ( PATTERN.matcher(i.getHostAddress()).matches() ){
-                return i.getHostAddress();
+        while (e.hasMoreElements()) {
+            NetworkInterface n = (NetworkInterface) e.nextElement();
+            Enumeration ee = n.getInetAddresses();
+            while (ee.hasMoreElements()) {
+                InetAddress i = (InetAddress) ee.nextElement();
+                if (PATTERN.matcher(i.getHostAddress()).matches()) {
+                    return i.getHostAddress();
+                }
+
             }
-         
+
         }
-        
-        }   
-        return("Erreur pas d'interface trouvée");
+        return ("Erreur pas d'interface trouvée");
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return this.pseudo + ", connected at: " + this.timeConnexion + ", ip : " + this.myIp;
+    }
     
     @Override
-    public String toString(){
-        return this.pseudo+", connected at: "+this.timeConnexion+", ip : "+this.myIp;
+    public boolean equals(Object obj){
+        return this.myIp.equals(((DataAgent)obj).myIp);
     }
 
-   
 }
